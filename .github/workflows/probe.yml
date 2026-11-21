@@ -1,0 +1,22 @@
+name: probe
+# Manual only. Finds and checks pages before anything is collected; edits nothing.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "discover (sites -> candidate pages) or verify (listed pages -> stability)"
+        default: discover
+        type: choice
+        options: [discover, verify]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q requests pyyaml beautifulsoup4
+      - run: python tools/probe.py ${{ inputs.mode }}

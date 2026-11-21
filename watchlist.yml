@@ -1,0 +1,48 @@
+# Change-signals watchlist: 25 smaller UK-listed, consumer-facing companies.
+#
+# Chosen for pages that change quietly and that analysts rarely watch
+# (careers, board, news), across pubs and food, leisure, home and DIY,
+# specialist retail, online retail and housebuilding.
+#
+# STATUS: sites UNVERIFIED. Domains were written from memory and have not been
+# fetched; `pages` are empty until tools/probe.py has run from the collection
+# host, checked robots.txt and redirects, and found the careers, board and news
+# pages. Each page is added only once its selector is byte-stable across two
+# fetches. A company that cannot be stabilised is dropped and the reason noted.
+#
+# `ticker` is the Yahoo Finance symbol used for scoring; `benchmark` is the
+# index the excess return is measured against.
+
+benchmark: "^FTMC"   # FTSE 250
+
+companies:
+  - {name: Greggs,                    ticker: GRG.L,  sector: food,      sites: [www.greggs.com, corporate.greggs.co.uk]}
+  - {name: J D Wetherspoon,           ticker: JDW.L,  sector: pubs,      sites: [www.jdwetherspoon.com]}
+  - {name: Mitchells & Butlers,       ticker: MAB.L,  sector: pubs,      sites: [www.mbplc.com]}
+  - {name: Marston's,                 ticker: MARS.L, sector: pubs,      sites: [www.marstons.co.uk]}
+  - {name: Domino's Pizza Group,      ticker: DOM.L,  sector: food,      sites: [www.dominos.co.uk, investors.dominos.co.uk]}
+  - {name: Hollywood Bowl Group,      ticker: BOWL.L, sector: leisure,   sites: [www.hollywoodbowlgroup.com]}
+  - {name: The Gym Group,             ticker: GYM.L,  sector: leisure,   sites: [www.thegymgroup.com, www.tggplc.com]}
+  - {name: Card Factory,              ticker: CARD.L, sector: retail,    sites: [www.cardfactory.co.uk, www.cardfactoryinvestors.com]}
+  - {name: Topps Group,               ticker: TPT.L,  sector: home,      sites: [www.toppstiles.co.uk, www.toppsgroup.com]}
+  - {name: Halfords,                  ticker: HFD.L,  sector: retail,    sites: [www.halfords.com, www.halfordscompany.com]}
+  - {name: Wickes,                    ticker: WIX.L,  sector: home,      sites: [www.wickes.co.uk, www.wickesplc.co.uk]}
+  - {name: DFS Furniture,             ticker: DFS.L,  sector: home,      sites: [www.dfs.co.uk, www.dfscorporate.co.uk]}
+  - {name: Dunelm,                    ticker: DNLM.L, sector: home,      sites: [www.dunelm.com, corporate.dunelm.com]}
+  - {name: Pets at Home,              ticker: PETS.L, sector: retail,    sites: [www.petsathome.com, investors.petsathome.com]}
+  - {name: Moonpig Group,             ticker: MOON.L, sector: online,    sites: [www.moonpig.com, www.moonpig.group]}
+  - {name: Virgin Wines,              ticker: VINO.L, sector: online,    sites: [www.virginwines.co.uk, www.virginwinesplc.co.uk]}
+  - {name: Naked Wines,               ticker: WINE.L, sector: online,    sites: [www.nakedwines.co.uk, www.nakedwinesplc.co.uk]}
+  - {name: Saga,                      ticker: SAGA.L, sector: leisure,   sites: [www.saga.co.uk, corporate.saga.co.uk]}
+  - {name: Watches of Switzerland,    ticker: WOSG.L, sector: retail,    sites: [www.watches-of-switzerland.co.uk, www.thewosgroupplc.com]}
+  - {name: Mulberry,                  ticker: MUL.L,  sector: retail,    sites: [www.mulberry.com, www.mulberryplc.com]}
+  - {name: Victorian Plumbing,        ticker: VIC.L,  sector: online,    sites: [victorianplumbing.co.uk, www.victorianplc.com]}
+  - {name: ASOS,                      ticker: ASC.L,  sector: online,    sites: [www.asos.com, www.asosplc.com]}
+  - {name: Revolution Beauty,         ticker: REVB.L, sector: online,    sites: [www.revolutionbeauty.com, www.revolutionbeautyplc.com]}
+  - {name: Vistry Group,              ticker: VTY.L,  sector: housing,   sites: [www.vistrygroup.co.uk]}
+  - {name: Crest Nicholson,           ticker: CRST.L, sector: housing,   sites: [www.crestnicholson.com]}
+
+# pages: filled in after probing, as
+#   pages:
+#     - {company: Greggs, kind: careers, url: https://..., css: main}
+pages: []
