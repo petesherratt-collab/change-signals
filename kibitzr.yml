@@ -1,0 +1,241 @@
+checks:
+- name: Greggs | careers
+  url: https://careers.greggs.co.uk
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Greggs | board
+  url: https://corporate.greggs.co.uk/investors/the-board
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: J D Wetherspoon | news
+  url: https://www.jdwetherspoon.com/news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: The Gym Group | careers
+  url: https://www.thegymgroup.com/careers/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: The Gym Group | board
+  url: https://www.tggplc.com/about-us/our-leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: The Gym Group | news
+  url: https://www.tggplc.com/news-and-media/press-releases/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Card Factory | careers
+  url: https://www.cardfactoryinvestors.com/careers/find-your-place/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Card Factory | board
+  url: https://www.cardfactoryinvestors.com/our-company/our-board-of-directors/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Card Factory | news
+  url: https://www.cardfactoryinvestors.com/investors/regulatory-news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Halfords | board
+  url: https://www.halfordscompany.com/who-we-are/our-leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Halfords | news
+  url: https://www.halfordscompany.com/news-and-media/news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Wickes | board
+  url: https://www.wickesplc.co.uk/company/about-us/leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Wickes | news
+  url: https://www.wickesplc.co.uk/company/news/press-releases/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: DFS Furniture | board
+  url: https://www.dfscorporate.co.uk/about-us/our-leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: DFS Furniture | news
+  url: https://www.dfscorporate.co.uk/news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Dunelm | board
+  url: https://corporate.dunelm.com/about-us/leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Dunelm | news
+  url: https://corporate.dunelm.com/news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Moonpig Group | careers
+  url: https://www.moonpig.group/careers/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Moonpig Group | board
+  url: https://www.moonpig.group/governance/leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Moonpig Group | news
+  url: https://www.moonpig.group/news-and-media/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Virgin Wines | board
+  url: https://www.virginwinesplc.co.uk/who-we-are/our-leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Virgin Wines | news
+  url: https://www.virginwinesplc.co.uk/media-and-releases/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Naked Wines | careers
+  url: https://www.nakedwines.co.uk/about/careers
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Saga | careers
+  url: https://www.saga.co.uk/careers
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Saga | board
+  url: https://www.corporate.saga.co.uk/about-us/board-of-directors/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Victorian Plumbing | careers
+  url: https://careers.victorianplumbing.co.uk/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: ASOS | board
+  url: https://www.asosplc.com/about-us/our-board-of-directors/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: ASOS | news
+  url: https://www.asosplc.com/news-and-media/latest-news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Revolution Beauty | careers
+  url: https://revolutionbeautyplc.com/careers/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Revolution Beauty | board
+  url: https://revolutionbeautyplc.com/our-leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
