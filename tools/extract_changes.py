@@ -44,6 +44,8 @@ def extract(watch, store, done):
     """Records for polls after ``done[check]`` (the last poll id already handled)."""
     out = []
     for page in watch.get("pages") or []:
+        if not str(page.get("status", "")).startswith("passed"):
+            continue
         name = check_name(page)
         previous_text, last = None, done.get(name, 0)
         for obs in observations(store, name):

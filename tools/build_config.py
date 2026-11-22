@@ -19,6 +19,8 @@ def check_name(page):
 def build(watch, root="./archive"):
     checks = []
     for page in watch.get("pages") or []:
+        if not str(page.get("status", "")).startswith("passed"):
+            continue  # only pages that passed verify are collected
         checks.append({
             "name": check_name(page),
             "url": page["url"],

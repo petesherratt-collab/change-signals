@@ -48,185 +48,271 @@ companies:
 #   Watches of Switzerland: corporate site answers 403; the shop site has no
 #     careers, board or news pages.
 #   Mulberry: corporate site fails TLS; the shop redirects a US runner to /us/.
-#   Marston's, Pets at Home, Vistry: first sites redirected or had no
-#     candidates; second-round sites added above.
+#   Crest Nicholson: no corporate site reachable (plc domain fails TLS); only
+#     the consumer news page is a candidate.
 # Runner geography matters: Actions runs in the US, and a site that
 # redirects by country would be archived as its US version.
 
+# `status`: 'passed <date>' = stable on verify; 'retry' = selector or URL changed
+# after a failed verify; 'new' = not yet verified. The poll uses passed pages only.
 pages:
 - company: Greggs
   kind: careers
   url: https://careers.greggs.co.uk
   css: main
+  status: passed 2026-11-22
 - company: Greggs
   kind: board
   url: https://corporate.greggs.co.uk/investors/the-board
   css: main
+  status: passed 2026-11-22
 - company: Greggs
   kind: news
   url: https://corporate.greggs.co.uk/news/
-  css: main
+  css: body
+  status: retry
 - company: J D Wetherspoon
   kind: news
   url: https://www.jdwetherspoon.com/news/
   css: main
+  status: passed 2026-11-22
 - company: Domino's Pizza Group
   kind: board
   url: https://investors.dominos.co.uk/investors/board-directors
-  css: main
+  css: body
+  status: retry
 - company: Domino's Pizza Group
   kind: news
-  url: https://investors.dominos.co.uk/press-releases
-  css: main
+  url: https://investors.dominos.co.uk/investors/news/press-releases
+  css: body
+  status: retry
 - company: Hollywood Bowl Group
   kind: board
   url: https://www.hollywoodbowlgroup.com/about-us/our-leadership
-  css: main
+  css: body
+  status: retry
 - company: Hollywood Bowl Group
   kind: news
   url: https://www.hollywoodbowlgroup.com/news-and-media/news
-  css: main
+  css: body
+  status: retry
 - company: The Gym Group
   kind: careers
   url: https://www.thegymgroup.com/careers/
   css: main
+  status: passed 2026-11-22
 - company: The Gym Group
   kind: board
   url: https://www.tggplc.com/about-us/our-leadership/
   css: main
+  status: passed 2026-11-22
 - company: The Gym Group
   kind: news
   url: https://www.tggplc.com/news-and-media/press-releases/
   css: main
+  status: passed 2026-11-22
 - company: Card Factory
   kind: careers
   url: https://www.cardfactoryinvestors.com/careers/find-your-place/
   css: main
+  status: passed 2026-11-22
 - company: Card Factory
   kind: board
   url: https://www.cardfactoryinvestors.com/our-company/our-board-of-directors/
   css: main
+  status: passed 2026-11-22
 - company: Card Factory
   kind: news
   url: https://www.cardfactoryinvestors.com/investors/regulatory-news/
   css: main
+  status: passed 2026-11-22
 - company: Topps Group
   kind: careers
-  url: https://www.toppsgroup.com/careers/
-  css: main
+  url: https://careers.toppsgroup.com/
+  css: body
+  status: retry
 - company: Topps Group
   kind: board
   url: https://www.toppsgroup.com/governance/executive-team/
-  css: main
+  css: body
+  status: retry
 - company: Topps Group
   kind: news
   url: https://www.toppsgroup.com/investors/rns-feed/
-  css: main
+  css: body
+  status: retry
 - company: Halfords
   kind: board
   url: https://www.halfordscompany.com/who-we-are/our-leadership/
   css: main
+  status: passed 2026-11-22
 - company: Halfords
   kind: news
   url: https://www.halfordscompany.com/news-and-media/news/
   css: main
+  status: passed 2026-11-22
 - company: Wickes
   kind: board
   url: https://www.wickesplc.co.uk/company/about-us/leadership/
   css: main
+  status: passed 2026-11-22
 - company: Wickes
   kind: news
   url: https://www.wickesplc.co.uk/company/news/press-releases/
   css: main
+  status: passed 2026-11-22
 - company: DFS Furniture
   kind: board
   url: https://www.dfscorporate.co.uk/about-us/our-leadership/
   css: main
+  status: passed 2026-11-22
 - company: DFS Furniture
   kind: news
   url: https://www.dfscorporate.co.uk/news/
   css: main
+  status: passed 2026-11-22
 - company: Dunelm
   kind: careers
-  url: https://corporate.dunelm.com/careers/
-  css: main
+  url: https://www.dunelmcareers.com/
+  css: body
+  status: retry
 - company: Dunelm
   kind: board
   url: https://corporate.dunelm.com/about-us/leadership/
   css: main
+  status: passed 2026-11-22
 - company: Dunelm
   kind: news
   url: https://corporate.dunelm.com/news/
   css: main
+  status: passed 2026-11-22
 - company: Moonpig Group
   kind: careers
   url: https://www.moonpig.group/careers/
   css: main
+  status: passed 2026-11-22
 - company: Moonpig Group
   kind: board
   url: https://www.moonpig.group/governance/leadership/
   css: main
+  status: passed 2026-11-22
 - company: Moonpig Group
   kind: news
   url: https://www.moonpig.group/news-and-media/
   css: main
+  status: passed 2026-11-22
 - company: Virgin Wines
   kind: board
   url: https://www.virginwinesplc.co.uk/who-we-are/our-leadership/
   css: main
+  status: passed 2026-11-22
 - company: Virgin Wines
   kind: news
   url: https://www.virginwinesplc.co.uk/media-and-releases/
   css: main
+  status: passed 2026-11-22
 - company: Naked Wines
   kind: careers
   url: https://www.nakedwines.co.uk/about/careers
   css: main
+  status: passed 2026-11-22
 - company: Naked Wines
   kind: board
   url: https://www.nakedwinesplc.co.uk/about-us/board-of-directors/default.aspx
-  css: main
+  css: body
+  status: retry
 - company: Naked Wines
   kind: news
   url: https://www.nakedwinesplc.co.uk/news-and-media/press-releases/default.aspx
-  css: main
+  css: body
+  status: retry
 - company: Saga
   kind: careers
   url: https://www.saga.co.uk/careers
   css: main
+  status: passed 2026-11-22
 - company: Saga
   kind: board
   url: https://www.corporate.saga.co.uk/about-us/board-of-directors/
   css: main
+  status: passed 2026-11-22
 - company: Saga
   kind: news
-  url: https://www.corporate.saga.co.uk/news/
+  url: https://www.corporate.saga.co.uk/news/regulatory-news/
   css: main
+  status: retry
 - company: Victorian Plumbing
   kind: careers
   url: https://careers.victorianplumbing.co.uk/
   css: main
+  status: passed 2026-11-22
 - company: ASOS
   kind: board
   url: https://www.asosplc.com/about-us/our-board-of-directors/
   css: main
+  status: passed 2026-11-22
 - company: ASOS
   kind: news
   url: https://www.asosplc.com/news-and-media/latest-news/
   css: main
+  status: passed 2026-11-22
 - company: Revolution Beauty
   kind: careers
   url: https://revolutionbeautyplc.com/careers/
   css: main
+  status: passed 2026-11-22
 - company: Revolution Beauty
   kind: board
   url: https://revolutionbeautyplc.com/our-leadership/
   css: main
+  status: passed 2026-11-22
 - company: Revolution Beauty
   kind: news
   url: https://revolutionbeautyplc.com/regulatory-news/
-  css: main
+  css: body
+  status: retry
 - company: Crest Nicholson
   kind: news
   url: https://www.crestnicholson.com/your-crest-experience/latest-news
+  css: body
+  status: retry
+- company: Marston's
+  kind: board
+  url: https://www.marstonspubs.co.uk/investors/company-profile/management-team/
   css: main
+  status: new
+- company: Marston's
+  kind: news
+  url: https://www.marstonspubs.co.uk/news/
+  css: main
+  status: new
+- company: Pets at Home
+  kind: careers
+  url: https://www.petsathomeplc.com/careers/search-jobs/
+  css: main
+  status: new
+- company: Pets at Home
+  kind: board
+  url: https://www.petsathomeplc.com/about-us/leadership/board-of-directors/
+  css: main
+  status: new
+- company: Pets at Home
+  kind: news
+  url: https://www.petsathomeplc.com/news-and-media/
+  css: main
+  status: new
+- company: Vistry Group
+  kind: careers
+  url: https://www.vistry.co.uk/our-partnerships-model/work-with-us
+  css: main
+  status: new
+- company: Vistry Group
+  kind: board
+  url: https://www.vistry.co.uk/about-us/leadership
+  css: main
+  status: new
+- company: Vistry Group
+  kind: news
+  url: https://www.vistry.co.uk/media/press-releases
+  css: main
+  status: new

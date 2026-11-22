@@ -115,6 +115,8 @@ def verify(watch, wait=20):
            "|---|---|---|---|---|---|---|---|---|"]
     robots = {}
     for p in watch.get("pages") or []:
+        if str(p.get("status", "")).startswith("passed") and os.getenv("VERIFY_ALL") != "1":
+            continue  # already passed; set VERIFY_ALL=1 to re-check everything
         host = urllib.parse.urlparse(p["url"]).hostname
         if host not in robots:
             robots[host] = robots_for(f"https://{host}")[0]

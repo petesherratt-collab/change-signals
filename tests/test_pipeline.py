@@ -26,7 +26,7 @@ def test_selected_text_and_diff():
 
 
 def test_build_config():
-    cfg = build_config.build({"pages": [{"company": "X", "kind": "news", "url": "https://x.com/n", "css": "main"}]})
+    cfg = build_config.build({"pages": [{"company": "X", "kind": "news", "url": "https://x.com/n", "css": "main", "status": "passed 2026-11-22"}, {"company": "Y", "kind": "news", "url": "https://y.com", "status": "new"}]})
     assert cfg["checks"][0]["name"] == "X | news"
     assert cfg["checks"][0]["transform"] == [{"css": "main"}, "text"]
 
