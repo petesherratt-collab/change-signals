@@ -15,6 +15,14 @@ checks:
   transform:
   - css: main
   - text
+- name: Greggs | news
+  url: https://corporate.greggs.co.uk/news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
 - name: J D Wetherspoon | news
   url: https://www.jdwetherspoon.com/news/
   period: 24h
@@ -22,6 +30,38 @@ checks:
     root: ./archive
   transform:
   - css: main
+  - text
+- name: Domino's Pizza Group | board
+  url: https://investors.dominos.co.uk/investors/board-directors
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Domino's Pizza Group | news
+  url: https://investors.dominos.co.uk/investors/news/press-releases
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Hollywood Bowl Group | board
+  url: https://www.hollywoodbowlgroup.com/about-us/our-leadership
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Hollywood Bowl Group | news
+  url: https://www.hollywoodbowlgroup.com/news-and-media/news
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
   - text
 - name: The Gym Group | careers
   url: https://www.thegymgroup.com/careers/
@@ -71,6 +111,30 @@ checks:
   transform:
   - css: main
   - text
+- name: Topps Group | careers
+  url: https://careers.toppsgroup.com/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Topps Group | board
+  url: https://www.toppsgroup.com/governance/executive-team/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Topps Group | news
+  url: https://www.toppsgroup.com/investors/rns-feed/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
 - name: Halfords | board
   url: https://www.halfordscompany.com/who-we-are/our-leadership/
   period: 24h
@@ -118,6 +182,14 @@ checks:
     root: ./archive
   transform:
   - css: main
+  - text
+- name: Dunelm | careers
+  url: https://www.dunelmcareers.com/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
   - text
 - name: Dunelm | board
   url: https://corporate.dunelm.com/about-us/leadership/
@@ -183,6 +255,22 @@ checks:
   transform:
   - css: main
   - text
+- name: Naked Wines | board
+  url: https://www.nakedwinesplc.co.uk/about-us/board-of-directors/default.aspx
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Naked Wines | news
+  url: https://www.nakedwinesplc.co.uk/news-and-media/press-releases/default.aspx
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
 - name: Saga | careers
   url: https://www.saga.co.uk/careers
   period: 24h
@@ -193,6 +281,14 @@ checks:
   - text
 - name: Saga | board
   url: https://www.corporate.saga.co.uk/about-us/board-of-directors/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Saga | news
+  url: https://www.corporate.saga.co.uk/news/regulatory-news/
   period: 24h
   archive:
     root: ./archive
@@ -233,6 +329,78 @@ checks:
   - text
 - name: Revolution Beauty | board
   url: https://revolutionbeautyplc.com/our-leadership/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Revolution Beauty | news
+  url: https://revolutionbeautyplc.com/regulatory-news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Crest Nicholson | news
+  url: https://www.crestnicholson.com/your-crest-experience/latest-news
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: body
+  - text
+- name: Marston's | board
+  url: https://www.marstonspubs.co.uk/investors/company-profile/management-team/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Marston's | news
+  url: https://www.marstonspubs.co.uk/news/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Pets at Home | careers
+  url: https://www.petsathomeplc.com/careers/search-jobs/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Pets at Home | board
+  url: https://www.petsathomeplc.com/about-us/leadership/board-of-directors/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Pets at Home | news
+  url: https://www.petsathomeplc.com/news-and-media/
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Vistry Group | careers
+  url: https://www.vistry.co.uk/our-partnerships-model/work-with-us
+  period: 24h
+  archive:
+    root: ./archive
+  transform:
+  - css: main
+  - text
+- name: Vistry Group | news
+  url: https://www.vistry.co.uk/media/press-releases
   period: 24h
   archive:
     root: ./archive
