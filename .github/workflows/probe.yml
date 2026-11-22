@@ -1,6 +1,10 @@
 name: probe
-# Manual only. Finds and checks pages before anything is collected; edits nothing.
+# Finds and checks pages before anything is collected; edits nothing.
+# Runs by hand, or on a push that changes the watchlist or the probe (both modes).
 on:
+  push:
+    branches: [main]
+    paths: [watchlist.yml, tools/probe.py, .github/workflows/probe.yml]
   workflow_dispatch:
     inputs:
       mode:
@@ -19,4 +23,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install -q requests pyyaml beautifulsoup4
-      - run: python tools/probe.py ${{ inputs.mode }}
+      - if: github.event_name == 'workflow_dispatch'
+        run: python tools/probe.py ${{ inputs.mode }}
+      - if: github.event_name == 'push'
+        run: python tools/probe.py discover && python tools/probe.py verify
