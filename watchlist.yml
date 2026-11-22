@@ -50,6 +50,8 @@ companies:
 #   Mulberry: corporate site fails TLS; the shop redirects a US runner to /us/.
 #   Crest Nicholson: no corporate site reachable (plc domain fails TLS); only
 #     the consumer news page is a candidate.
+#   Vistry Group board page: served in two alternating versions ("Vistry Group
+#     PLC" / "Vistry PLC"), so it would report a change on most polls.
 # Runner geography matters: Actions runs in the US, and a site that
 # redirects by country would be archived as its US version.
 
@@ -70,7 +72,7 @@ pages:
   kind: news
   url: https://corporate.greggs.co.uk/news/
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: J D Wetherspoon
   kind: news
   url: https://www.jdwetherspoon.com/news/
@@ -80,22 +82,22 @@ pages:
   kind: board
   url: https://investors.dominos.co.uk/investors/board-directors
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Domino's Pizza Group
   kind: news
   url: https://investors.dominos.co.uk/investors/news/press-releases
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Hollywood Bowl Group
   kind: board
   url: https://www.hollywoodbowlgroup.com/about-us/our-leadership
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Hollywood Bowl Group
   kind: news
   url: https://www.hollywoodbowlgroup.com/news-and-media/news
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: The Gym Group
   kind: careers
   url: https://www.thegymgroup.com/careers/
@@ -130,17 +132,17 @@ pages:
   kind: careers
   url: https://careers.toppsgroup.com/
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Topps Group
   kind: board
   url: https://www.toppsgroup.com/governance/executive-team/
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Topps Group
   kind: news
   url: https://www.toppsgroup.com/investors/rns-feed/
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Halfords
   kind: board
   url: https://www.halfordscompany.com/who-we-are/our-leadership/
@@ -175,7 +177,7 @@ pages:
   kind: careers
   url: https://www.dunelmcareers.com/
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Dunelm
   kind: board
   url: https://corporate.dunelm.com/about-us/leadership/
@@ -220,12 +222,12 @@ pages:
   kind: board
   url: https://www.nakedwinesplc.co.uk/about-us/board-of-directors/default.aspx
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Naked Wines
   kind: news
   url: https://www.nakedwinesplc.co.uk/news-and-media/press-releases/default.aspx
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Saga
   kind: careers
   url: https://www.saga.co.uk/careers
@@ -240,7 +242,7 @@ pages:
   kind: news
   url: https://www.corporate.saga.co.uk/news/regulatory-news/
   css: main
-  status: retry
+  status: passed 2026-11-22
 - company: Victorian Plumbing
   kind: careers
   url: https://careers.victorianplumbing.co.uk/
@@ -270,49 +272,49 @@ pages:
   kind: news
   url: https://revolutionbeautyplc.com/regulatory-news/
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Crest Nicholson
   kind: news
   url: https://www.crestnicholson.com/your-crest-experience/latest-news
   css: body
-  status: retry
+  status: passed 2026-11-22
 - company: Marston's
   kind: board
   url: https://www.marstonspubs.co.uk/investors/company-profile/management-team/
   css: main
-  status: new
+  status: passed 2026-11-22
 - company: Marston's
   kind: news
   url: https://www.marstonspubs.co.uk/news/
   css: main
-  status: new
+  status: passed 2026-11-22
 - company: Pets at Home
   kind: careers
   url: https://www.petsathomeplc.com/careers/search-jobs/
   css: main
-  status: new
+  status: passed 2026-11-22
 - company: Pets at Home
   kind: board
   url: https://www.petsathomeplc.com/about-us/leadership/board-of-directors/
   css: main
-  status: new
+  status: passed 2026-11-22
 - company: Pets at Home
   kind: news
   url: https://www.petsathomeplc.com/news-and-media/
   css: main
-  status: new
+  status: passed 2026-11-22
 - company: Vistry Group
   kind: careers
   url: https://www.vistry.co.uk/our-partnerships-model/work-with-us
   css: main
-  status: new
+  status: passed 2026-11-22
 - company: Vistry Group
   kind: board
   url: https://www.vistry.co.uk/about-us/leadership
   css: main
-  status: new
+  status: 'failed 2026-11-22: text alternates between two versions'
 - company: Vistry Group
   kind: news
   url: https://www.vistry.co.uk/media/press-releases
   css: main
-  status: new
+  status: passed 2026-11-22
