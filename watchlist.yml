@@ -4,7 +4,8 @@
 # (careers, board, news), across pubs and food, leisure, home and DIY,
 # specialist retail, online retail and housebuilding.
 #
-# STATUS: sites UNVERIFIED. Domains were written from memory and have not been
+# STATUS (22 Nov 2026): first discovery run done on GitHub Actions (US runner).
+# Pages below are candidates from it, pending `verify`. Earlier note: Domains were written from memory and have not been
 # fetched; `pages` are empty until tools/probe.py has run from the collection
 # host, checked robots.txt and redirects, and found the careers, board and news
 # pages. Each page is added only once its selector is byte-stable across two
@@ -19,7 +20,7 @@ companies:
   - {name: Greggs,                    ticker: GRG.L,  sector: food,      sites: [www.greggs.com, corporate.greggs.co.uk]}
   - {name: J D Wetherspoon,           ticker: JDW.L,  sector: pubs,      sites: [www.jdwetherspoon.com]}
   - {name: Mitchells & Butlers,       ticker: MAB.L,  sector: pubs,      sites: [www.mbplc.com]}
-  - {name: Marston's,                 ticker: MARS.L, sector: pubs,      sites: [www.marstons.co.uk]}
+  - {name: Marston's,                 ticker: MARS.L, sector: pubs,      sites: [www.marstons.co.uk, www.marstonspubs.co.uk]}
   - {name: Domino's Pizza Group,      ticker: DOM.L,  sector: food,      sites: [www.dominos.co.uk, investors.dominos.co.uk]}
   - {name: Hollywood Bowl Group,      ticker: BOWL.L, sector: leisure,   sites: [www.hollywoodbowlgroup.com]}
   - {name: The Gym Group,             ticker: GYM.L,  sector: leisure,   sites: [www.thegymgroup.com, www.tggplc.com]}
@@ -29,7 +30,7 @@ companies:
   - {name: Wickes,                    ticker: WIX.L,  sector: home,      sites: [www.wickes.co.uk, www.wickesplc.co.uk]}
   - {name: DFS Furniture,             ticker: DFS.L,  sector: home,      sites: [www.dfs.co.uk, www.dfscorporate.co.uk]}
   - {name: Dunelm,                    ticker: DNLM.L, sector: home,      sites: [www.dunelm.com, corporate.dunelm.com]}
-  - {name: Pets at Home,              ticker: PETS.L, sector: retail,    sites: [www.petsathome.com, investors.petsathome.com]}
+  - {name: Pets at Home,              ticker: PETS.L, sector: retail,    sites: [www.petsathome.com, www.petsathomeplc.com]}
   - {name: Moonpig Group,             ticker: MOON.L, sector: online,    sites: [www.moonpig.com, www.moonpig.group]}
   - {name: Virgin Wines,              ticker: VINO.L, sector: online,    sites: [www.virginwines.co.uk, www.virginwinesplc.co.uk]}
   - {name: Naked Wines,               ticker: WINE.L, sector: online,    sites: [www.nakedwines.co.uk, www.nakedwinesplc.co.uk]}
@@ -39,10 +40,193 @@ companies:
   - {name: Victorian Plumbing,        ticker: VIC.L,  sector: online,    sites: [victorianplumbing.co.uk, www.victorianplc.com]}
   - {name: ASOS,                      ticker: ASC.L,  sector: online,    sites: [www.asos.com, www.asosplc.com]}
   - {name: Revolution Beauty,         ticker: REVB.L, sector: online,    sites: [www.revolutionbeauty.com, www.revolutionbeautyplc.com]}
-  - {name: Vistry Group,              ticker: VTY.L,  sector: housing,   sites: [www.vistrygroup.co.uk]}
-  - {name: Crest Nicholson,           ticker: CRST.L, sector: housing,   sites: [www.crestnicholson.com]}
+  - {name: Vistry Group,              ticker: VTY.L,  sector: housing,   sites: [www.vistry.co.uk]}
+  - {name: Crest Nicholson,           ticker: CRST.L, sector: housing,   sites: [www.crestnicholson.com, www.crestnicholsonplc.com]}
 
-# pages: filled in after probing, as
-#   pages:
-#     - {company: Greggs, kind: careers, url: https://..., css: main}
-pages: []
+# Not admitted after discovery (22 Nov 2026):
+#   Mitchells & Butlers: www.mbplc.com answers 403 to the archive's agent.
+#   Watches of Switzerland: corporate site answers 403; the shop site has no
+#     careers, board or news pages.
+#   Mulberry: corporate site fails TLS; the shop redirects a US runner to /us/.
+#   Marston's, Pets at Home, Vistry: first sites redirected or had no
+#     candidates; second-round sites added above.
+# Runner geography matters: Actions runs in the US, and a site that
+# redirects by country would be archived as its US version.
+
+pages:
+- company: Greggs
+  kind: careers
+  url: https://careers.greggs.co.uk
+  css: main
+- company: Greggs
+  kind: board
+  url: https://corporate.greggs.co.uk/investors/the-board
+  css: main
+- company: Greggs
+  kind: news
+  url: https://corporate.greggs.co.uk/news/
+  css: main
+- company: J D Wetherspoon
+  kind: news
+  url: https://www.jdwetherspoon.com/news/
+  css: main
+- company: Domino's Pizza Group
+  kind: board
+  url: https://investors.dominos.co.uk/investors/board-directors
+  css: main
+- company: Domino's Pizza Group
+  kind: news
+  url: https://investors.dominos.co.uk/press-releases
+  css: main
+- company: Hollywood Bowl Group
+  kind: board
+  url: https://www.hollywoodbowlgroup.com/about-us/our-leadership
+  css: main
+- company: Hollywood Bowl Group
+  kind: news
+  url: https://www.hollywoodbowlgroup.com/news-and-media/news
+  css: main
+- company: The Gym Group
+  kind: careers
+  url: https://www.thegymgroup.com/careers/
+  css: main
+- company: The Gym Group
+  kind: board
+  url: https://www.tggplc.com/about-us/our-leadership/
+  css: main
+- company: The Gym Group
+  kind: news
+  url: https://www.tggplc.com/news-and-media/press-releases/
+  css: main
+- company: Card Factory
+  kind: careers
+  url: https://www.cardfactoryinvestors.com/careers/find-your-place/
+  css: main
+- company: Card Factory
+  kind: board
+  url: https://www.cardfactoryinvestors.com/our-company/our-board-of-directors/
+  css: main
+- company: Card Factory
+  kind: news
+  url: https://www.cardfactoryinvestors.com/investors/regulatory-news/
+  css: main
+- company: Topps Group
+  kind: careers
+  url: https://www.toppsgroup.com/careers/
+  css: main
+- company: Topps Group
+  kind: board
+  url: https://www.toppsgroup.com/governance/executive-team/
+  css: main
+- company: Topps Group
+  kind: news
+  url: https://www.toppsgroup.com/investors/rns-feed/
+  css: main
+- company: Halfords
+  kind: board
+  url: https://www.halfordscompany.com/who-we-are/our-leadership/
+  css: main
+- company: Halfords
+  kind: news
+  url: https://www.halfordscompany.com/news-and-media/news/
+  css: main
+- company: Wickes
+  kind: board
+  url: https://www.wickesplc.co.uk/company/about-us/leadership/
+  css: main
+- company: Wickes
+  kind: news
+  url: https://www.wickesplc.co.uk/company/news/press-releases/
+  css: main
+- company: DFS Furniture
+  kind: board
+  url: https://www.dfscorporate.co.uk/about-us/our-leadership/
+  css: main
+- company: DFS Furniture
+  kind: news
+  url: https://www.dfscorporate.co.uk/news/
+  css: main
+- company: Dunelm
+  kind: careers
+  url: https://corporate.dunelm.com/careers/
+  css: main
+- company: Dunelm
+  kind: board
+  url: https://corporate.dunelm.com/about-us/leadership/
+  css: main
+- company: Dunelm
+  kind: news
+  url: https://corporate.dunelm.com/news/
+  css: main
+- company: Moonpig Group
+  kind: careers
+  url: https://www.moonpig.group/careers/
+  css: main
+- company: Moonpig Group
+  kind: board
+  url: https://www.moonpig.group/governance/leadership/
+  css: main
+- company: Moonpig Group
+  kind: news
+  url: https://www.moonpig.group/news-and-media/
+  css: main
+- company: Virgin Wines
+  kind: board
+  url: https://www.virginwinesplc.co.uk/who-we-are/our-leadership/
+  css: main
+- company: Virgin Wines
+  kind: news
+  url: https://www.virginwinesplc.co.uk/media-and-releases/
+  css: main
+- company: Naked Wines
+  kind: careers
+  url: https://www.nakedwines.co.uk/about/careers
+  css: main
+- company: Naked Wines
+  kind: board
+  url: https://www.nakedwinesplc.co.uk/about-us/board-of-directors/default.aspx
+  css: main
+- company: Naked Wines
+  kind: news
+  url: https://www.nakedwinesplc.co.uk/news-and-media/press-releases/default.aspx
+  css: main
+- company: Saga
+  kind: careers
+  url: https://www.saga.co.uk/careers
+  css: main
+- company: Saga
+  kind: board
+  url: https://www.corporate.saga.co.uk/about-us/board-of-directors/
+  css: main
+- company: Saga
+  kind: news
+  url: https://www.corporate.saga.co.uk/news/
+  css: main
+- company: Victorian Plumbing
+  kind: careers
+  url: https://careers.victorianplumbing.co.uk/
+  css: main
+- company: ASOS
+  kind: board
+  url: https://www.asosplc.com/about-us/our-board-of-directors/
+  css: main
+- company: ASOS
+  kind: news
+  url: https://www.asosplc.com/news-and-media/latest-news/
+  css: main
+- company: Revolution Beauty
+  kind: careers
+  url: https://revolutionbeautyplc.com/careers/
+  css: main
+- company: Revolution Beauty
+  kind: board
+  url: https://revolutionbeautyplc.com/our-leadership/
+  css: main
+- company: Revolution Beauty
+  kind: news
+  url: https://revolutionbeautyplc.com/regulatory-news/
+  css: main
+- company: Crest Nicholson
+  kind: news
+  url: https://www.crestnicholson.com/your-crest-experience/latest-news
+  css: main
