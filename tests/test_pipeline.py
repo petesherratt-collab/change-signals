@@ -31,9 +31,22 @@ def test_build_config():
     assert cfg["checks"][0]["transform"] == [{"css": "main"}, "text"]
 
 
+class FakeFuture:
+    def __init__(self, value):
+        self.value = value
+
+    def result(self):
+        return self.value
+
+    def done(self):
+        return True
+
+
 class FakeRouter:
-    def __init__(self, log_path, answer):
-        self.log_path, self.answer, self.n = log_path, answer, 0
+    """Step A through handle(); step B through start_prompt_race()."""
+
+    def __init__(self, log_path, cosmetic, votes):
+        self.log_path, self.cosmetic, self.votes, self.n = log_path, cosmetic, votes, 0
 
     def handle(self, request):
         self.n += 1
@@ -41,11 +54,15 @@ class FakeRouter:
         with open(self.log_path, "a") as h:
             h.write(json.dumps({"record_type": "fast_path_request", "request_id": rid}) + "\n")
             h.write(json.dumps({"record_type": "fast_path_observation", "request_id": rid, "agreed": True,
-                                "distinct_valid_answers": 1, "models": [{"model": "m", "valid": True}]}) + "\n")
-        return {"value": self.answer, "route": "model", "model": "m", "total_ms": 12.0}
+                                "distinct_valid_answers": 1, "models": []}) + "\n")
+        return {"value": self.cosmetic, "route": "model", "model": "m", "total_ms": 10.0}
 
     def drain(self):
         pass
+
+    def start_prompt_race(self, prompt):
+        return {FakeFuture({"model": f"m{i}", "valid": True, "value": v, "total_ms": 5 + i}): f"m{i}"
+                for i, v in enumerate(self.votes)}
 
 
 class FakeFastPath:
@@ -53,17 +70,36 @@ class FakeFastPath:
     def FastPathRequest(*args):
         return args
 
+    @staticmethod
+    def build_answer_prompt(*args):
+        return "prompt"
 
-def test_label_all_records_route_and_agreement(tmp_path):
+
+CHANGE = {"check": "X | careers", "company": "X", "kind": "careers", "poll_id": 3,
+          "polled_at": "2026-11-20T06:17:00+00:00", "removed": ["a"], "added": ["b"]}
+
+
+def test_cosmetic_change_is_irrelevant_without_step_b(tmp_path, monkeypatch):
+    monkeypatch.setattr(label_changes, "wait", lambda fs, return_when: (set(fs), set()))
     log = tmp_path / "log.jsonl"
-    change = {"check": "X | careers", "company": "X", "kind": "careers", "poll_id": 3,
-              "polled_at": "2026-11-20T06:17:00+00:00", "removed": ["a"], "added": ["b"]}
+    out = label_changes.label_all([CHANGE], set(), FakeRouter(log, True, ["sell"]), FakeFastPath, log)
+    assert out[0]["label"] == "irrelevant" and out[0]["cosmetic"] is True and out[0]["b_model"] is None
+    assert out[0]["route"] == "model" and out[0]["agreed"] is True
+
+
+def test_non_cosmetic_change_is_raced_and_disagreement_is_flagged(tmp_path, monkeypatch):
+    monkeypatch.setattr(label_changes, "wait", lambda fs, return_when: (set(fs), set()))
+    log = tmp_path / "log.jsonl"
     done = set()
-    out = label_changes.label_all([change], done, FakeRouter(log, "sell"), FakeFastPath, log)
-    assert out[0]["label"] == "sell" and out[0]["agreed"] is True and out[0]["route"] == "model"
-    assert label_changes.label_all([change], done, FakeRouter(log, "sell"), FakeFastPath, log) == []
-    bad = label_changes.label_all([{**change, "poll_id": 4}], set(), FakeRouter(log, "maybe"), FakeFastPath, log)
-    assert bad[0]["label"] is None and bad[0]["raw_value"] == "maybe"
+    out = label_changes.label_all([CHANGE], done, FakeRouter(log, False, ["sell", "sell", "irrelevant"]), FakeFastPath, log)
+    assert out[0]["label"] == "sell" and out[0]["b_votes"] == {"sell": 2, "irrelevant": 1}
+    assert out[0]["b_agreed"] is False and out[0]["agreed"] is False
+    assert label_changes.label_all([CHANGE], done, FakeRouter(log, False, ["sell"]), FakeFastPath, log) == []
+
+
+def test_price_lines_are_stripped_but_counts_kept():
+    text = "296.0p\n▲ +6.0p · +2.07%\n33.60\n-0.30\nShare price at 23 Nov 26 16:35\n15\nStore manager, Leeds\n+2.07%"
+    assert extract_changes.strip_prices(text) == "15\nStore manager, Leeds"
 
 
 def series(start, values):

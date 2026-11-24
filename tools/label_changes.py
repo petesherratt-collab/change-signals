@@ -1,41 +1,55 @@
-"""Label each new page change buy, sell or irrelevant, through the Adaptive Router.
+"""Label each new page change, in two steps, through the Adaptive Router.
 
     python tools/label_changes.py --changes data/changes.jsonl --labels data/labels.jsonl \\
-        --router ../Adaptive_Router --store data/router_store
+        --router router --store data/router_store
 
-Each change is one request of a single fixed shape. The router races several
-models for the first valid answer; when the models agree, the answer becomes an
-example, and once enough agree it may promote code (for instance, code that
-recognises a changed date or a reordered list as irrelevant). No model judges
-code: promotion is by reproducing agreed answers.
+Step A, "is this change cosmetic?": a repeated, rule-like question (a date moved,
+items reordered, one routine vacancy swapped for another). It goes through the
+router's fast path with learning on: racing models answer, agreed answers become
+examples, and code may be promoted once it reproduces them. Measuring how much of
+step A becomes code is the router experiment (AMENDMENT_1.md).
 
-Every label records how it was produced (code or model race, which model, how
-long) and whether the racing models agreed. Disagreement is the uncertainty
-flag: on earlier jobs agreed answers were right 94% of the time against 18%
-for disagreed ones. Labels are append-only and written before any price after
-the change is known; scoring is a separate step.
+Step B, "buy, sell or irrelevant?", for changes that are not cosmetic: a judgement,
+raced across every model and never turned into code. The first valid answer is the
+label (time first, as everywhere in the router); every model's answer is kept, and
+disagreement is the uncertainty flag.
+
+Labels are append-only and written in the same run as the poll that found the
+change, before any later price exists. Scoring is tools/score.py.
 """
 
 from __future__ import annotations
 
 import argparse
+from collections import Counter
+from concurrent.futures import FIRST_COMPLETED, wait
 import json
 import os
 from pathlib import Path
 import sys
+import time
 
-SPEC = (
+SPEC_COSMETIC = (
     "A UK-listed company's own web page changed between two daily checks. 'removed' lists text lines that "
-    "disappeared and 'added' lists lines that appeared; 'page_kind' says which page it is (careers, board or "
-    "news). Decide what the change suggests for the company's share price over the next few weeks, using "
-    "only this change: return \"buy\" if it is a meaningful sign of improving business (for example many "
-    "more vacancies, new senior hires, expansion, new contracts), \"sell\" if it is a meaningful sign of "
-    "worsening business (for example vacancies cut or frozen, directors removed or departing unexpectedly, "
-    "closures, profit warnings, delays), and \"irrelevant\" for anything else, including cosmetic or routine "
-    "changes such as dates, cookie or menu text, reordering, a single routine vacancy, or news the market "
-    "already had. Most changes are irrelevant. Return exactly one of \"buy\", \"sell\", \"irrelevant\"."
+    "disappeared and 'added' lists lines that appeared; 'page_kind' is careers, board or news. Return true if "
+    "the change is cosmetic or routine and says nothing about how the business is doing: only dates or times "
+    "changed; the same items reordered; wording, menus, cookie or footer text; one routine vacancy replaced by "
+    "another; a routine shareholding notice. Return false if it could matter: vacancies added or removed in "
+    "numbers, a director or senior manager arriving or leaving, a new announcement about trading, results, "
+    "contracts, sites, planning, closures, financing or acquisitions. Return exactly true or false."
 )
-SIGNATURE = "def solve(company, page_kind, removed, added):"
+SIGNATURE_COSMETIC = "def solve(page_kind, removed, added):"
+
+SPEC_LABEL = (
+    "A UK-listed company's own web page changed between two daily checks, and the change is not merely "
+    "cosmetic. 'removed' lists text lines that disappeared and 'added' lists lines that appeared; 'page_kind' "
+    "says which page it is (careers, board or news). Using only this change, decide what it suggests for the "
+    "company's share price over the next few weeks: \"buy\" for a meaningful sign of improving business (many "
+    "more vacancies, senior hires, expansion, new contracts or approvals), \"sell\" for a meaningful sign of "
+    "worsening business (vacancies cut or frozen, unexpected departures, closures, profit warnings, delays), "
+    "and \"irrelevant\" otherwise. Return exactly one of \"buy\", \"sell\", \"irrelevant\"."
+)
+SIGNATURE_LABEL = "def solve(company, page_kind, removed, added):"
 LABELS = {"buy", "sell", "irrelevant"}
 MAX_CHARS = 6000  # per side, so one huge rewrite cannot blow the prompt
 
@@ -51,26 +65,15 @@ def clip(lines):
     return out
 
 
-def last_observation(log_path, request_id):
-    """The racers' agreement for a request, from the router's log (None if not observed)."""
+def last_record(log_path, record_type, request_id=None):
     try:
         lines = Path(log_path).read_text(encoding="utf-8").splitlines()
     except OSError:
         return None
-    for line in reversed(lines[-200:]):
+    for line in reversed(lines[-300:]):
         record = json.loads(line)
-        if record.get("record_type") == "fast_path_observation" and record.get("request_id") == request_id:
-            return {"agreed": record["agreed"], "distinct_valid_answers": record["distinct_valid_answers"],
-                    "models": [m["model"] for m in record["models"] if m.get("valid")]}
-    return None
-
-
-def last_request_id(log_path):
-    lines = Path(log_path).read_text(encoding="utf-8").splitlines()
-    for line in reversed(lines[-200:]):
-        record = json.loads(line)
-        if record.get("record_type") == "fast_path_request":
-            return record["request_id"]
+        if record.get("record_type") == record_type and (request_id is None or record.get("request_id") == request_id):
+            return record
     return None
 
 
@@ -84,23 +87,60 @@ def make_router(router_dir, store, log_path):
                                                store_dir=store, log_path=log_path)
 
 
+def step_a(router, fast_path, log_path, change):
+    """Cosmetic or not, through the fast path with learning on."""
+    args = [change["kind"], clip(change["removed"]), clip(change["added"])]
+    result = router.handle(fast_path.FastPathRequest(SPEC_COSMETIC, SIGNATURE_COSMETIC, args, []))
+    router.drain()
+    agreed = None
+    if result["route"] == "model":
+        request = last_record(log_path, "fast_path_request")
+        observed = last_record(log_path, "fast_path_observation", request and request["request_id"])
+        agreed = observed["agreed"] if observed else None
+    value = result["value"]
+    return {"cosmetic": value if isinstance(value, bool) else None, "a_route": result["route"],
+            "a_model": result["model"], "a_ms": round(result["total_ms"]), "a_agreed": agreed}
+
+
+def step_b(router, fast_path, change):
+    """Buy/sell/irrelevant: raced, first valid answer wins, every answer kept; never learned."""
+    args = [change["company"], change["kind"], clip(change["removed"]), clip(change["added"])]
+    prompt = fast_path.build_answer_prompt(SPEC_LABEL, SIGNATURE_LABEL, args)
+    started = time.perf_counter()
+    futures = router.start_prompt_race(prompt)
+    winner, first_ms, remaining = None, None, set(futures)
+    while remaining and winner is None:
+        done, remaining = wait(remaining, return_when=FIRST_COMPLETED)
+        valid = [f.result() for f in done if f.result()["valid"] and f.result()["value"] in LABELS]
+        if valid:
+            winner = min(valid, key=lambda r: r["total_ms"] or 0)
+            first_ms = (time.perf_counter() - started) * 1000
+    answers = [f.result() for f in futures]  # waits for the rest, for the agreement record only
+    votes = Counter(a["value"] for a in answers if a["valid"] and a["value"] in LABELS)
+    return {"label": winner["value"] if winner else None, "b_model": winner["model"] if winner else None,
+            "b_ms": round(first_ms) if first_ms else None, "b_votes": dict(votes),
+            "b_agreed": len(votes) == 1 and sum(votes.values()) >= 2}
+
+
 def label_all(changes, done, router, fast_path, log_path):
     out = []
     for change in changes:
         key = f"{change['check']}#{change['poll_id']}"
         if key in done:
             continue
-        args = [change["company"], change["kind"], clip(change["removed"]), clip(change["added"])]
-        result = router.handle(fast_path.FastPathRequest(SPEC, SIGNATURE, args, []))
-        router.drain()
-        value = result["value"]
-        observed = last_observation(log_path, last_request_id(log_path)) if result["route"] == "model" else None
-        out.append({"key": key, "check": change["check"], "company": change["company"], "kind": change["kind"],
-                    "polled_at": change["polled_at"],
-                    "label": value if value in LABELS else None, "raw_value": None if value in LABELS else value,
-                    "route": result["route"], "model": result["model"], "ms": round(result["total_ms"]),
-                    "agreed": observed["agreed"] if observed else None,
-                    "distinct_answers": observed["distinct_valid_answers"] if observed else None})
+        record = {"key": key, "check": change["check"], "company": change["company"], "kind": change["kind"],
+                  "polled_at": change["polled_at"]}
+        a = step_a(router, fast_path, log_path, change)
+        record.update(a)
+        if a["cosmetic"] is True:
+            record.update({"label": "irrelevant", "b_model": None, "b_ms": None, "b_votes": {}, "b_agreed": None})
+        else:  # not cosmetic, or step A gave no usable answer: ask the judgement question
+            record.update(step_b(router, fast_path, change))
+        # fields tools/score.py reads (unchanged since the plan was frozen)
+        record["route"] = a["a_route"] if a["cosmetic"] is True else "model"
+        record["agreed"] = a["a_agreed"] if a["cosmetic"] is True else record["b_agreed"]
+        record["ms"] = a["a_ms"] + (record["b_ms"] or 0)
+        out.append(record)
         done.add(key)
     return out
 
@@ -132,10 +172,8 @@ def main():
     with open(labels_path, "a", encoding="utf-8") as handle:
         for r in records:
             handle.write(json.dumps(r, ensure_ascii=False) + "\n")
-    routes = {}
-    for r in records:
-        routes[r["route"]] = routes.get(r["route"], 0) + 1
-    print(f"{len(records)} labelled; routes {routes}")
+    print(f"{len(records)} labelled: {dict(Counter(r['label'] for r in records))}; "
+          f"step A routes {dict(Counter(r['a_route'] for r in records))}")
 
 
 if __name__ == "__main__":

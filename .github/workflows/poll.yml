@@ -3,7 +3,8 @@ name: poll
 # score what is old enough, and commit the data to the `data` branch.
 on:
   schedule:
-    - cron: "17 6 * * *"   # 06:17 UTC, before the London open
+    - cron: "17 6 * * *"    # 06:17 UTC, before the London open
+    - cron: "47 13 * * *"   # backup: GitHub delays or drops scheduled runs; skipped if a poll ran in the last 20 h
   workflow_dispatch:
   push:
     branches: [main]
@@ -27,34 +28,55 @@ jobs:
           else
             git worktree add --orphan -b data data
           fi
+      - name: Skip a scheduled run if a poll happened in the last 20 hours
+        id: gate
+        run: |
+          last=$(git -C data log -1 --format=%ct 2>/dev/null || echo 0)
+          age=$(( $(date +%s) - last ))
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$age" -lt 72000 ]; then
+            echo "last poll $((age / 3600)) h ago: skipping"; echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
         with:
           repository: petesherratt-collab/Adaptive_Router
           path: router
       - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
         with: {python-version: "3.12"}
       - name: Install
+        if: steps.gate.outputs.run == 'true'
         run: |
           pip install -q kibitzr requests pyyaml beautifulsoup4 python-dotenv psutil \
             "kibitzr-archive @ git+https://github.com/petesherratt-collab/evidence-archive#subdirectory=tools/kibitzr-archive"
       - name: Poll
+        if: steps.gate.outputs.run == 'true'
         working-directory: data
         run: |
           python ../tools/build_config.py --watchlist ../watchlist.yml > kibitzr.yml
           kibitzr once || echo "kibitzr exited $? (failed polls are logged in the archive)"
           kibitzr archive verify
       - name: Extract changes
+        if: steps.gate.outputs.run == 'true'
         run: python tools/extract_changes.py --archive data/archive --out data/changes.jsonl
       - name: Label changes
+        if: steps.gate.outputs.run == 'true'
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: python tools/label_changes.py --changes data/changes.jsonl --labels data/labels.jsonl --router router --store data/router_store
+      - name: Router report
+        if: steps.gate.outputs.run == 'true'
+        run: python tools/router_report.py --labels data/labels.jsonl --out data/router_report.md
       - name: Score
+        if: steps.gate.outputs.run == 'true'
         run: python tools/score.py --labels data/labels.jsonl --out data/score.md --prices data/prices || echo "scoring failed; labels are kept"
       - name: Commit data
+        if: steps.gate.outputs.run == 'true'
         working-directory: data
         run: |
-          cat score.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          cat router_report.md score.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
           git add -A
           git -c user.name="change-signals bot" -c user.email="actions@users.noreply.github.com" \
             commit -q -m "poll $(date -u +%Y-%m-%dT%H:%MZ)" || echo "nothing to commit"
