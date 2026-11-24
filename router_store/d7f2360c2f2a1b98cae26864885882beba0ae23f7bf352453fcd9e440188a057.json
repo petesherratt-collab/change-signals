@@ -1,0 +1,291 @@
+{
+ "shape": "d7f2360c2f2a1b98cae26864885882beba0ae23f7bf352453fcd9e440188a057",
+ "spec": "A UK-listed company's own web page changed between two daily checks. 'removed' lists text lines that disappeared and 'added' lists lines that appeared; 'page_kind' is careers, board or news. Return true if the change is cosmetic or routine and says nothing about how the business is doing: only dates or times changed; the same items reordered; wording, menus, cookie or footer text; one routine vacancy replaced by another; a routine shareholding notice. Return false if it could matter: vacancies added or removed in numbers, a director or senior manager arriving or leaving, a new announcement about trading, results, contracts, sites, planning, closures, financing or acquisitions. Return exactly true or false.",
+ "signature": "def solve(page_kind, removed, added):",
+ "examples": [
+  {
+   "args": [
+    "news",
+    [],
+    [
+     "Notice of Results and Investor Presentation",
+     "24 November 2026 07:00"
+    ]
+   ],
+   "expected": false,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "20 Nov 2026",
+     "Carlisle",
+     "Seasonal Evening Sales Assistant",
+     "20 Nov 2026",
+     "Cardiff",
+     "Operations Supervisor",
+     "20 Nov 2026",
+     "Cannock",
+     "Please Select",
+     "Permanent",
+     "20 Nov 2026",
+     "Sheffield",
+     "20 Nov 2026",
+     "Crewe",
+     "20 Nov 2026",
+     "Crewe",
+     "161"
+    ],
+    [
+     "23 Nov 2026",
+     "Wandsworth",
+     "23 Nov 2026",
+     "Stevenage",
+     "23 Nov 2026",
+     "St Albans, United Kingdom",
+     "23 Nov 2026",
+     "Norwich",
+     "Seasonal Stock Assistant - Early Morning",
+     "23 Nov 2026",
+     "Norwich",
+     "Stock and Trade Assistants",
+     "Seasonal Sales Assistant - Host",
+     "23 Nov 2026",
+     "Taunton",
+     "152"
+    ]
+   ],
+   "expected": false,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [
+     "Crest Nicholson support Midlands Foodbanks this Christmas",
+     "Local house builder Crest Nicholson raised over \u00a31,000 across four of its Midlands developments throughout November to help support the essential works of local foodbanks this Christmas.",
+     "0 to 10 of 747 Stories"
+    ],
+    [
+     "23 November 2026",
+     "Crest Nicholson gets green light for Longcross Garden Village",
+     "Crest Nicholson, as part of a joint venture with Aviva Investors, has received outline planning permission for Longcross Garden Village, a new community of up to 1,700 homes supported by significant new education, healthcare, highways, transport, leisure and community infrastructure.",
+     "0 to 10 of 748 Stories"
+    ]
+   ],
+   "expected": false,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [],
+    []
+   ],
+   "expected": true,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [
+     "Last updated: 14 May 2024, 09:00 GMT"
+    ],
+    [
+     "Last updated: 15 May 2024, 09:00 GMT"
+    ]
+   ],
+   "expected": true,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "board",
+    [
+     "Alice Smith - Non-Executive Director",
+     "Bob Jones - Chair"
+    ],
+    [
+     "Bob Jones - Chair",
+     "Alice Smith - Non-Executive Director"
+    ]
+   ],
+   "expected": true,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "Cookie Policy: We use essential cookies."
+    ],
+    [
+     "Cookie Policy: We use cookies to enhance your experience."
+    ]
+   ],
+   "expected": true,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "Junior QA Tester - London"
+    ],
+    [
+     "Junior QA Tester - Leeds"
+    ]
+   ],
+   "expected": true,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [],
+    [
+     "Senior Developer",
+     "Cloud Engineer",
+     "UX Designer",
+     "Product Lead"
+    ]
+   ],
+   "expected": false,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "Warehouse Operative",
+     "Shift Supervisor",
+     "Forklift Driver"
+    ],
+    []
+   ],
+   "expected": false,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "board",
+    [],
+    [
+     "Dr. Jane Reed appointed as Chief Executive Officer"
+    ]
+   ],
+   "expected": false,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "board",
+    [
+     "Mark Evans steps down as Chief Financial Officer"
+    ],
+    []
+   ],
+   "expected": false,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [],
+    [
+     "Form TR-1: Notification of Major Holdings"
+    ]
+   ],
+   "expected": true,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [],
+    [
+     "Trading Update: FY24 Results Ahead of Expectations"
+    ]
+   ],
+   "expected": false,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [],
+    [
+     "Proposed Acquisition of TargetCo Ltd for \u00a325m"
+    ]
+   ],
+   "expected": false,
+   "source": "probe_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [
+     "Marston's Pub Crowned Among Britain's Best at Great British Pub Awards",
+     "It was a night to remember for The Honey Bee in Aylesbury, which was named Marston's Pub of the Year 2026 at the prestigious Great British Pub Awards in Leeds."
+    ],
+    [
+     "Latest",
+     "Marston\u2019s 2026 Top Chef winners cook alongside Michelin-starred chef Luke Tipping",
+     "Today, the winners of Marston\u2019s 2026 Top Chef Awards swapped their pub kitchens for an exclusive culinary masterclass, cooking alongside acclaimed Michelin-starred chef Luke Tipping at Marston\u2019s Pub Support Centre in Wolverhampton."
+    ]
+   ],
+   "expected": true,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [
+     "New partnership helps bring EV charging to more Marston's pubs and inns",
+     "Marston's has announced a new long-term partnership with EV charging provider Believ, helping to bring electric vehicle charging to even more pubs and hotels across its estate."
+    ],
+    [
+     "Preliminary Results \u2013 24 November 2026",
+     "Another strong year of progress, with accelerated pub format rollout set to drive future sales growth as shareholder returns recommence through \u00a315m share buyback programme."
+    ]
+   ],
+   "expected": false,
+   "source": "model_agreement"
+  }
+ ],
+ "function": null,
+ "probes": {
+  "model": "google/gemini-3.8-flash",
+  "error": null,
+  "proposed": 12,
+  "agreed": 12,
+  "disagreed": 0,
+  "added": 12,
+  "conflicts": 0
+ },
+ "synthesis_attempts": [
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 10427.248679999992
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 14445.964291000024
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 16648.82779499996
+  }
+ ],
+ "demotions": [],
+ "disagreements": 4,
+ "example_conflicts": 0,
+ "repeat_streak": 0
+}
