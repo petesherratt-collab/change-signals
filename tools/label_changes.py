@@ -10,9 +10,9 @@ examples, and code may be promoted once it reproduces them. Measuring how much o
 step A becomes code is the router experiment (AMENDMENT_1.md).
 
 Step B, "buy, sell or irrelevant?", for changes that are not cosmetic: a judgement,
-raced across every model and never turned into code. The first valid answer is the
-label (time first, as everywhere in the router); every model's answer is kept, and
-disagreement is the uncertainty flag.
+raced across every model and never turned into code. The label is the majority of
+the models' answers (Amendment 2; the first nine labels used the fastest answer);
+every model's answer is kept, and disagreement is the uncertainty flag.
 
 Labels are append-only and written in the same run as the poll that found the
 change, before any later price exists. Scoring is tools/score.py.
@@ -103,23 +103,40 @@ def step_a(router, fast_path, log_path, change):
 
 
 def step_b(router, fast_path, change):
-    """Buy/sell/irrelevant: raced, first valid answer wins, every answer kept; never learned."""
+    """Buy/sell/irrelevant: raced across every model, never learned.
+
+    Amendment 2 (24 Nov 2026): the label is the majority of the valid answers, with a
+    tie going to "irrelevant", so one fast outlier cannot make a trade signal. The
+    fastest valid answer is still recorded (b_first) for comparison with the rule
+    used for the first nine labels.
+    """
     args = [change["company"], change["kind"], clip(change["removed"]), clip(change["added"])]
     prompt = fast_path.build_answer_prompt(SPEC_LABEL, SIGNATURE_LABEL, args)
     started = time.perf_counter()
     futures = router.start_prompt_race(prompt)
-    winner, first_ms, remaining = None, None, set(futures)
-    while remaining and winner is None:
+    first, remaining = None, set(futures)
+    while remaining:
         done, remaining = wait(remaining, return_when=FIRST_COMPLETED)
         valid = [f.result() for f in done if f.result()["valid"] and f.result()["value"] in LABELS]
-        if valid:
-            winner = min(valid, key=lambda r: r["total_ms"] or 0)
-            first_ms = (time.perf_counter() - started) * 1000
-    answers = [f.result() for f in futures]  # waits for the rest, for the agreement record only
+        if valid and first is None:
+            first = min(valid, key=lambda r: r["total_ms"] or 0)
+    all_ms = (time.perf_counter() - started) * 1000
+    answers = [f.result() for f in futures]
     votes = Counter(a["value"] for a in answers if a["valid"] and a["value"] in LABELS)
-    return {"label": winner["value"] if winner else None, "b_model": winner["model"] if winner else None,
-            "b_ms": round(first_ms) if first_ms else None, "b_votes": dict(votes),
-            "b_agreed": len(votes) == 1 and sum(votes.values()) >= 2}
+    label = majority(votes)
+    return {"label": label, "b_rule": "majority", "b_first": first["value"] if first else None,
+            "b_model": first["model"] if first else None, "b_ms": round(all_ms) if votes else None,
+            "b_votes": dict(votes), "b_agreed": len(votes) == 1 and sum(votes.values()) >= 2}
+
+
+def majority(votes):
+    """Most common label; a tie for the top, or no valid answer, gives "irrelevant" (None if no answers)."""
+    if not votes:
+        return None
+    ranked = votes.most_common()
+    if len(ranked) > 1 and ranked[0][1] == ranked[1][1]:
+        return "irrelevant"
+    return ranked[0][0]
 
 
 def label_all(changes, done, router, fast_path, log_path):

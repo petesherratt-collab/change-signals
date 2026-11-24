@@ -92,7 +92,7 @@ def test_non_cosmetic_change_is_raced_and_disagreement_is_flagged(tmp_path, monk
     log = tmp_path / "log.jsonl"
     done = set()
     out = label_changes.label_all([CHANGE], done, FakeRouter(log, False, ["sell", "sell", "irrelevant"]), FakeFastPath, log)
-    assert out[0]["label"] == "sell" and out[0]["b_votes"] == {"sell": 2, "irrelevant": 1}
+    assert out[0]["label"] == "sell" and out[0]["b_votes"] == {"sell": 2, "irrelevant": 1} and out[0]["b_rule"] == "majority"
     assert out[0]["b_agreed"] is False and out[0]["agreed"] is False
     assert label_changes.label_all([CHANGE], done, FakeRouter(log, False, ["sell"]), FakeFastPath, log) == []
 
@@ -134,3 +134,15 @@ def test_permutation_p_is_small_for_a_clear_gap_and_large_for_none():
     assert gap > 0 and p < 0.01
     _, p2 = score.permutation_p([0.0, 0.01, -0.01] * 4, [0.0, -0.01, 0.01] * 4, n=2000)
     assert p2 > 0.3
+
+
+def test_majority_beats_a_fast_outlier_and_ties_are_irrelevant(tmp_path, monkeypatch):
+    monkeypatch.setattr(label_changes, "wait", lambda fs, return_when: (set(fs), set()))
+    log = tmp_path / "log.jsonl"
+    # the fastest model (m0) says sell; four say irrelevant: the Dunelm case of 23 Nov
+    out = label_changes.label_all([CHANGE], set(), FakeRouter(log, False, ["sell"] + ["irrelevant"] * 4), FakeFastPath, log)
+    assert out[0]["label"] == "irrelevant" and out[0]["b_first"] == "sell" and out[0]["b_agreed"] is False
+    from collections import Counter
+    assert label_changes.majority(Counter({"buy": 2, "sell": 2, "irrelevant": 1})) == "irrelevant"
+    assert label_changes.majority(Counter({"buy": 3, "irrelevant": 2})) == "buy"
+    assert label_changes.majority(Counter()) is None
