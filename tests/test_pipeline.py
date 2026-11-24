@@ -1,4 +1,5 @@
 import datetime
+import datetime as dt
 import json
 import sys
 from pathlib import Path
@@ -146,3 +147,44 @@ def test_majority_beats_a_fast_outlier_and_ties_are_irrelevant(tmp_path, monkeyp
     assert label_changes.majority(Counter({"buy": 2, "sell": 2, "irrelevant": 1})) == "irrelevant"
     assert label_changes.majority(Counter({"buy": 3, "irrelevant": 2})) == "buy"
     assert label_changes.majority(Counter()) is None
+
+
+import paper_trade  # noqa: E402
+
+
+def test_paper_trade_buy_costs_skip_and_avoided():
+    stock = series("2026-11-02", [100, 100] + [110] * 30)
+    bench = series("2026-11-02", [1000] * 32)
+    watch = {"benchmark": "B", "companies": [{"name": "X", "ticker": "X.L"}, {"name": "Y", "ticker": "Y.L"}]}
+    labels = [{"company": "X", "label": "buy", "polled_at": "2026-11-02T06:00"},
+              {"company": "X", "label": "buy", "polled_at": "2026-11-04T06:00"},   # still held: skipped
+              {"company": "Y", "label": "sell", "polled_at": "2026-11-02T06:00"}]
+    rows = paper_trade.trades(labels, watch, lambda s: bench if s == "B" else stock)
+    first, second, avoided = rows[0], rows[1], rows[2]
+    assert first["status"] == "closed" and first["entry"] == 100 and first["exit"] == 110
+    # £1,000 less 1% on the way in, +10%, less 0.5% on the way out
+    assert abs(first["back"] - 1000 * 0.99 * 1.10 * 0.995) < 1e-6
+    assert abs(first["tracker"] - 1000 * 0.999 * 0.999) < 1e-6
+    assert second["status"] == "skipped: already held"
+    assert avoided["side"] == "sell" and avoided["status"] == "avoided"
+    text = paper_trade.report(rows)
+    assert "Trades:** 1 (1 closed, 0 open)" in text
+
+
+def test_paper_trade_waits_and_stays_open():
+    stock = series("2026-11-02", [100, 105, 107])
+    bench = series("2026-11-02", [1000, 1000, 1000])
+    watch = {"benchmark": "B", "companies": [{"name": "X", "ticker": "X.L"}]}
+    rows = paper_trade.trades([{"company": "X", "label": "buy", "polled_at": "2026-11-02T06:00"},
+                               {"company": "X", "label": "buy", "polled_at": "2026-11-04T06:00"}],
+                              watch, lambda s: bench if s == "B" else stock)
+    assert rows[0]["status"] == "open" and rows[0]["exit"] == 107
+    assert rows[1]["status"] == "waiting for next close"
+
+
+def test_unfinished_day_is_not_a_close():
+    s = series("2026-11-23", [100, 101])          # Mon 23, Tue 24
+    morning = dt.datetime(2026, 11, 24, 14, 15, tzinfo=dt.timezone.utc)
+    evening = dt.datetime(2026, 11, 24, 18, 0, tzinfo=dt.timezone.utc)
+    assert paper_trade.completed(s, morning) == s[:1]
+    assert paper_trade.completed(s, evening) == s

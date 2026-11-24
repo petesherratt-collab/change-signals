@@ -72,11 +72,14 @@ jobs:
       - name: Score
         if: steps.gate.outputs.run == 'true'
         run: python tools/score.py --labels data/labels.jsonl --out data/score.md --prices data/prices || echo "scoring failed; labels are kept"
+      - name: Paper trades
+        if: steps.gate.outputs.run == 'true'
+        run: python tools/paper_trade.py --labels data/labels.jsonl --out data/paper_trades.md || echo "paper trades failed; labels are kept"
       - name: Commit data
         if: steps.gate.outputs.run == 'true'
         working-directory: data
         run: |
-          cat router_report.md score.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          cat router_report.md score.md paper_trades.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
           git add -A
           git -c user.name="change-signals bot" -c user.email="actions@users.noreply.github.com" \
             commit -q -m "poll $(date -u +%Y-%m-%dT%H:%MZ)" || echo "nothing to commit"

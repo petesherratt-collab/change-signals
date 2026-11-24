@@ -46,3 +46,11 @@ About 100 checks a day. Labelling costs about $0.002 per change at today's
 prices (five models raced), and nothing once a change type has become code.
 If 10 to 20 changes a day survive, that is roughly $1 to $2 a month. GitHub
 Actions minutes for a private repository fall within the free allowance.
+
+## Paper trading
+
+`tools/paper_trade.py` turns the same labels into a pretend account after each poll:
+£1,000 per buy, held 20 trading days, with stamp duty and dealing costs, against the
+same money in a FTSE 250 tracker. Sells are listed as avoided. The rules are in
+[`PAPER_TRADING.md`](PAPER_TRADING.md), and the latest report is
+`paper_trades.md` on the `data` branch. It sits alongside the frozen test, not in place of it.
