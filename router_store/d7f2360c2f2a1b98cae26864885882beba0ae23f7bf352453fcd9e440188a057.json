@@ -252,6 +252,105 @@
    ],
    "expected": false,
    "source": "model_agreement"
+  },
+  {
+   "args": [
+    "board",
+    [
+     "Putt & Play \u2197"
+    ],
+    [
+     "\u00b7 0.0p \u00b7 0.00%"
+    ]
+   ],
+   "expected": true,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [
+     "Putt & Play \u2197"
+    ],
+    [
+     "\u00b7 0.0p \u00b7 0.00%"
+    ]
+   ],
+   "expected": true,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "E-Commerce Manager",
+     "\u00a3Competitive salary plus benefits",
+     "Kings Cross",
+     "Up to \u00a310,442 plus OTE of \u00a312,625",
+     "15"
+    ],
+    [
+     "E-commerce Manager",
+     "\u00a3Competitive basic plus benefits",
+     "18 Nov 2026",
+     "Clevedon",
+     "Up to \u00a331,500 plus OTE of \u00a340,500"
+    ]
+   ],
+   "expected": true,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "23 Nov 2026",
+     "Wandsworth",
+     "Seasonal Barista/Coffee Shop Assistant",
+     "23 Nov 2026",
+     "Stevenage",
+     "Coffee Shop Assistants",
+     "Seasonal Stock and Trade Assistant",
+     "23 Nov 2026",
+     "St Albans, United Kingdom",
+     "Seasonal Stock and Trade Assistant",
+     "23 Nov 2026",
+     "Norwich",
+     "Seasonal Stock Assistant - Early Morning",
+     "23 Nov 2026",
+     "Norwich",
+     "Stock and Trade Assistants",
+     "Seasonal Sales Assistant - Host",
+     "23 Nov 2026",
+     "Taunton",
+     "151"
+    ],
+    [
+     "Principal Store Technology Engineer",
+     "25 Nov 2026",
+     "Hybrid (Leicester, United Kingdom)",
+     "Technology",
+     "Permanent",
+     "Process Team Leader",
+     "25 Nov 2026",
+     "Paisley",
+     "Team Leader - Stores",
+     "Permanent",
+     "Seasonal Stock and Trade Assistant: Furniture Builder",
+     "25 Nov 2026",
+     "Bradford",
+     "25 Nov 2026",
+     "Kettering",
+     "25 Nov 2026",
+     "Newtownabbey",
+     "Permanent",
+     "25 Nov 2026",
+     "Llandudno",
+     "132"
+    ]
+   ],
+   "expected": false,
+   "source": "model_agreement"
   }
  ],
  "function": null,
@@ -282,10 +381,40 @@
    "outcome": "REMOTE_ERROR",
    "error": "OPENROUTER_RESPONSE_INVALID",
    "ms": 16648.82779499996
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 10464.590209000007
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 11335.787224
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 10187.818961999994
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 10394.805693999984
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 10959.25717099999
   }
  ],
  "demotions": [],
- "disagreements": 4,
+ "disagreements": 5,
  "example_conflicts": 0,
  "repeat_streak": 0
 }

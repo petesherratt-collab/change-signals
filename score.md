@@ -1,10 +1,10 @@
 # Score
 
-Labels: 9; buy/sell events: 3
+Labels: 14; buy/sell events: 4
 
-Router: routes {'model': 9}; models agreed on 5/9 observed; median 2857 ms
+Router: routes {'model': 14}; models agreed on 9/14 observed; median 2857 ms
 
-Labels: {'irrelevant': 6, 'sell': 1, 'buy': 2}
+Labels: {'irrelevant': 10, 'sell': 2, 'buy': 2}
 
 | horizon | side | events scored | mean excess | share beating benchmark |
 |---|---|---|---|---|
