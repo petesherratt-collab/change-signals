@@ -351,6 +351,177 @@
    ],
    "expected": false,
    "source": "model_agreement"
+  },
+  {
+   "args": [
+    "board",
+    [
+     "\u00b7 0.0p \u00b7 0.00%"
+    ],
+    []
+   ],
+   "expected": true,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [
+     "\u00b7 0.0p \u00b7 0.00%"
+    ],
+    []
+   ],
+   "expected": true,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "18 Nov 2026",
+     "Clevedon",
+     "Up to \u00a331,500 plus OTE of \u00a340,500"
+    ],
+    [
+     "Transport Supervisor - Late Shift",
+     "25 Nov 2026",
+     "\u00a331,117 basic plus benefits and bonus"
+    ]
+   ],
+   "expected": true,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "Principal Store Technology Engineer",
+     "25 Nov 2026",
+     "Hybrid (Leicester, United Kingdom)",
+     "Technology",
+     "Process Team Leader",
+     "25 Nov 2026",
+     "Paisley",
+     "Team Leader - Stores",
+     "Seasonal Stock and Trade Assistant: Furniture Builder",
+     "25 Nov 2026",
+     "Bradford",
+     "Seasonal Sales Assistant",
+     "25 Nov 2026",
+     "Kettering",
+     "Seasonal Sales Assistant",
+     "25 Nov 2026",
+     "Newtownabbey",
+     "Seasonal Sales Assistant",
+     "25 Nov 2026",
+     "132"
+    ],
+    [
+     "Seasonal Barista/Coffee Shop Assistant",
+     "26 Nov 2026",
+     "Swindon",
+     "Coffee Shop Assistants",
+     "Sales Assistant - Key Holder",
+     "26 Nov 2026",
+     "Made to Measure Sales Advisor - Home Working",
+     "26 Nov 2026",
+     "Nationwide",
+     "Please Select",
+     "Home working",
+     "Seasonal Barista/Coffee Shop Assistant",
+     "26 Nov 2026",
+     "Kingston, South-West London",
+     "Coffee Shop Assistants",
+     "Seasonal Stock Assistant - Early Morning",
+     "26 Nov 2026",
+     "Doncaster",
+     "Stock and Trade Assistants",
+     "Seasonal Sales Assistant - Click & Collect",
+     "26 Nov 2026",
+     "Doncaster",
+     "138"
+    ]
+   ],
+   "expected": false,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "board",
+    [
+     "Our Leadership",
+     "Board of Directors",
+     "John Risman",
+     "Non-Executive Chairman",
+     "remuneration",
+     "John Risman",
+     "Non-Executive Chairman",
+     "John has held the position of Chairman of Virgin Wines since October 2018. He is also Chief Executive of Hillarys Group, the UK\u2019s largest window furnishing company.",
+     "John has 30 years\u2019 experience within the retail sector. Prior to joining Hillarys Group in 2005, John was COO at Thresher Group and held various roles at Dixons Retail, where he was latterly a Managing Director. He started his business career as a strategy consultant with LEK Partnership.",
+     "Jay Wright",
+     "Chief Executive Officer",
+     "Jay Wright",
+     "Chief Executive Officer",
+     "Jay Wright is CEO of Virgin Wines, having held the role since 2008 when he successfully merged the Warehouse Wines and Virgin Wines businesses. In 2013, Jay led a private equity-backed management buyout of the Virgin Wines business and following substantial growth took the business public in March 2021.",
+     "Prior to joining Virgin Wines, Jay held Managing Director roles at Warehouse Wines, the business he founded in 2000, and World Wines Direct, a subsidiary of the Greenalls Group.",
+     "Amanda Cherry",
+     "Chief Financial Officer",
+     "AIM Compliance",
+     "Amanda Cherry",
+     "Chief Financial Officer",
+     "A Chartered Accountant, Amanda held roles at United Utilities and Interfloor Group prior to joining Virgin Wines in 2009. As Head of Group Finance, she supported the business through the management buyout in 2013 and IPO in 2021.",
+     "Sophie Tomkins",
+     "Non-Executive Director",
+     "audit",
+     "AIM Compliance",
+     "remuneration",
+     "Sophie Tomkins",
+     "Non-Executive Director",
+     "Sophie is a Non-Executive Director with extensive public markets experience gained through nearly two decades as a London-based stockbroker. She has been involved with a huge range of public markets transactions and is a qualified Chartered Accountant.",
+     "Sophie currently sits on the Board of several AIM-listed companies, and a sizeable private company. She is a Non-Executive Director and Audit Committee Chair of Hotel Chocolat Group plc, System1 Group plc and The Snowfox Group, and a member of all three Remuneration Committees.",
+     "Helen Jones",
+     "Non-Executive Director",
+     "audit",
+     "remuneration",
+     "Helen Jones",
+     "Non-Executive Director",
+     "Helen joins Virgin Wines UK plc as a Non-Executive Director and Chair of the Remuneration Committee. She has more than 35 years\u2019 experience in the food and beverage sector, both in the UK and internationally. Helen was Group Executive Director at Caffe Nero and Managing Director at Zizzi. She also spent nine years at Unilever, where she launched the Ben & Jerry\u2019s brand in the UK and Europe.",
+     "Helen is currently Senior Independent Director at the Halfords Group plc, Remuneration Chair at Fuller, Smith & Turner plc and at Premier Foods plc. She also serves on the Boards of Whittard Tea and Toast Ale",
+     "Ed Wass",
+     "Non-Executive Director",
+     "audit",
+     "Ed Wass",
+     "Non-Executive Director",
+     "Ed is a Portfolio Partner at Gresham House Ventures, previously Mobeus Equity Partners LLP. He brings more than 20 years\u2019 experience of supporting companies to create and realise shareholder value. Prior to joining Gresham House, Ed was Chief Investment Officer at Catapult Ventures. Ed has held a number of senior finance roles, including at ATX Software and The Carbon Neutral Company, having qualified as a Chartered Accountant with PricewaterhouseCoopers.",
+     "Who We Are",
+     "Who We Are",
+     "Our Story",
+     "Our Strategy",
+     "Our Leadership"
+    ],
+    []
+   ],
+   "expected": false,
+   "source": "model_agreement"
+  },
+  {
+   "args": [
+    "news",
+    [
+     "Media and Releases",
+     "Search by keyword",
+     "Select date",
+     "All",
+     "2024",
+     "2023",
+     "2022",
+     "2021",
+     "Load more"
+    ],
+    []
+   ],
+   "expected": true,
+   "source": "model_agreement"
   }
  ],
  "function": null,
@@ -411,10 +582,57 @@
    "outcome": "REMOTE_ERROR",
    "error": "OPENROUTER_RESPONSE_INVALID",
    "ms": 10959.25717099999
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 11261.720681000043
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 9914.977522000016
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REJECTED",
+   "gate": {
+    "reason": "STATIC_REJECTED",
+    "static": "SYNTAX_ERROR",
+    "saturated": false
+   },
+   "rejected_source": "import re\n\n\ndef solve(page_kind, removed, added):\n    removed = [str(x) for x in (removed or [])]\n    added = [str(x) for x in (added or [])]\n    all_lines = removed + added\n\n    def normalize(text):\n        text = text.lower()\n        text = re.sub(r\"\\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:\n",
+   "ms": 8918.90084900001
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 10775.358962000042
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 9195.578123000018
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 9928.737276999982
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 13345.010152000043
   }
  ],
  "demotions": [],
- "disagreements": 5,
+ "disagreements": 6,
  "example_conflicts": 0,
  "repeat_streak": 0
 }
