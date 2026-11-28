@@ -636,6 +636,22 @@
    ],
    "expected": true,
    "source": "model_agreement"
+  },
+  {
+   "args": [
+    "careers",
+    [
+     "Part Time Deputy Manager",
+     "Croydon",
+     "Up to \u00a330,957 (pro rata) plus sales commision and bonus"
+    ],
+    [
+     "Telford",
+     "Up to \u00a319,882 plus OTE of \u00a322,500"
+    ]
+   ],
+   "expected": true,
+   "source": "model_agreement"
   }
  ],
  "function": null,
@@ -779,10 +795,22 @@
    "outcome": "REMOTE_ERROR",
    "error": "OPENROUTER_RESPONSE_INVALID",
    "ms": 9173.39571399998
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 8356.615059000007
+  },
+  {
+   "model": "openai/gpt-6-luna",
+   "outcome": "REMOTE_ERROR",
+   "error": "OPENROUTER_RESPONSE_INVALID",
+   "ms": 8195.785470999994
   }
  ],
  "demotions": [],
- "disagreements": 9,
+ "disagreements": 10,
  "example_conflicts": 0,
  "repeat_streak": 0
 }
